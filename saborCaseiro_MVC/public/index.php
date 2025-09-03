@@ -6,7 +6,7 @@ require __DIR__ . '/../vendor/autoload.php';
 
 use App\Controllers\HomeController;
 use App\Controllers\QuemSomosController;
-use App\Controllers\ProdutoController;
+use App\Controllers\ProdutosController;
 use App\Controllers\ContatoController;
 
 // Pega a URI
@@ -33,8 +33,8 @@ switch ($uriParts[0]) {
         (new QuemSomosController())->index();
         break;
 
-    case 'produto':
-        $controller = new ProdutoController();
+    case 'produtos':
+        $controller = new ProdutosController();
         if (isset($uriParts[1]) && is_numeric($uriParts[1])) {
             $controller->show((int)$uriParts[1]);
         } else {

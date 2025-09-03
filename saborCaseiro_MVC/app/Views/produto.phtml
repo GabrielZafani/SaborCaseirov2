@@ -1,5 +1,5 @@
 <?php 
-// Define a imagem do produto ou usa a padrão
+
 $imagem = !empty($produto['foto']) 
     ? '/img/' . htmlspecialchars($produto['foto']) 
     : '/img/image.gif';
@@ -13,6 +13,7 @@ $imagem = !empty($produto['foto'])
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
+    <?php include __DIR__ . "/header.phtml"; ?>
    
     <div class="container mt-5 mb-5">
         <h2 class="text-center mb-4" style="font-size: 40px; font-weight: bold; font-family: 'Times New Roman', serif;">

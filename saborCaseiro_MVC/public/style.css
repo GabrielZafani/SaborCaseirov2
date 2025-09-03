@@ -1,0 +1,25 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    
+}
+
+h2{
+    font-family: 'Times New Roman', Times, serif;
+}
+.carousel-item{
+    img{
+        width: 100%;
+        height: 500px;
+       
+    }
+}
+
+
+
+body {
+    background-color: #FFF9E6;
+    padding-top: 150px; /* Ajusta de acordo com a altura da navbar */
+}
+

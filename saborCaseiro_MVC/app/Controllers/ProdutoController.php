@@ -2,33 +2,38 @@
 namespace App\Controllers;
 
 class ProdutoController {
-    private $produtos;
+    private $produtos = [];
 
     public function __construct() {
-        // Dados estáticos. Depois substitua com DB.
-        $this->produtos = [
-            1 => [
-                'nome' => 'Bolo de Chocolate',
-                'valor' => 45.50,
-                'foto' => 'bolo-chocolate.jpg',
-                'descricao' => 'Delicioso bolo de chocolate com cobertura cremosa.',
-                'destaque' => true,
-            ],
-            2 => [
-                'nome' => 'Bolo de Cenoura',
-                'valor' => 39.90,
-                'foto' => 'bolo-cenoura.jpg',
-                'descricao' => 'Bolo de cenoura com cobertura de chocolate.',
-                'destaque' => false,
-            ],
-            3 => [
-                'nome' => 'Bolo Red Velvet',
-                'valor' => 59.00,
-                'foto' => 'bolo-red-velvet.jpg',
-                'descricao' => 'Bolo vermelho aveludado, super macio e saboroso.',
-                'destaque' => true,
-            ],
-        ];
+        // Conexão com o banco
+        $host = "localhost";
+        $usuario = "root";       
+        $senha = "";             
+        $banco = "projeto";       
+
+        $conn = new \mysqli($host, $usuario, $senha, $banco);
+
+        if ($conn->connect_error) {
+            die("Conexão falhou: " . $conn->connect_error);
+        }
+
+        // Consulta todos os produtos
+        $sql = "SELECT * FROM produtos";
+        $result = $conn->query($sql);
+
+        if ($result->num_rows > 0) {
+            while($row = $result->fetch_assoc()) {
+                $this->produtos[$row['id']] = [
+                    'nome' => $row['nome'],
+                    'valor' => $row['preco'],
+                    'foto' => $row['foto'],
+                    'descricao' => $row['descricao'],
+                    'destaque' => $row['destaque'] ? true : false,
+                ];
+            }
+        }
+
+        $conn->close();
     }
 
     public function show($id) {
@@ -40,11 +45,16 @@ class ProdutoController {
 
         $produto = $this->produtos[$id];
 
-        // Também passa produtos em destaque, exceto o atual
+        // Produtos em destaque, exceto o atual
         $produtosDestaque = array_filter($this->produtos, function($p, $key) use ($id) {
             return !empty($p['destaque']) && $key != $id;
         }, ARRAY_FILTER_USE_BOTH);
 
         require __DIR__ . '/../Views/produto.php';
+    }
+
+    // Função para retornar todos os produtos (para o catálogo)
+    public function all() {
+        return $this->produtos;
     }
 }

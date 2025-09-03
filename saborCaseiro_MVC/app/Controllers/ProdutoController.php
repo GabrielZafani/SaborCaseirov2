@@ -1,59 +1,42 @@
 <?php
 namespace App\Controllers;
 
-class ProdutoController {
-    private $produtos;
+use App\Models\Produto;
+use PDO;
 
-    public function __construct() {
-        // Dados estáticos (exemplo). Depois substitua com DB.
-        $this->produtos = [
-            1 => [
-                'nome' => 'Bolo de Chocolate',
-                'valor' => 45.50,
-                'foto' => 'bolo-chocolate.jpg',
-                'descricao' => 'Delicioso bolo de chocolate com cobertura cremosa.',
-                'destaque' => true,
-            ],
-            2 => [
-                'nome' => 'Bolo de Cenoura',
-                'valor' => 39.90,
-                'foto' => 'bolo-cenoura.jpg',
-                'descricao' => 'Bolo de cenoura com cobertura de chocolate.',
-                'destaque' => false,
-            ],
-            3 => [
-                'nome' => 'Bolo Red Velvet',
-                'valor' => 59.00,
-                'foto' => 'bolo-red-velvet.jpg',
-                'descricao' => 'Bolo vermelho aveludado, super macio e saboroso.',
-                'destaque' => true,
-            ],
-        ];
+class ProdutoController
+{
+    private $produtoModel;
+
+    public function __construct()
+    {
+        // Conexão PDO (NÃO mysqli)
+        $dsn = "mysql:host=localhost;dbname=projeto;charset=utf8";
+        $user = "root";   // ajuste se seu MySQL tiver senha
+        $pass = "";
+
+        $pdo = new PDO($dsn, $user, $pass);
+        $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+        // injeta no model
+        $this->produtoModel = new Produto($pdo);
     }
 
-    // 👉 Página "produtos" (listagem de todos)
-    public function index() {
-        $produtos = $this->produtos;
-
-        require __DIR__ . '/../Views/produtos-lista.phtml';
+    public function index()
+    {
+        $produtos = $this->produtoModel->getAll();
+        require __DIR__ . '/../Views/produtos.phtml';
     }
 
-    // 👉 Página de um produto específico
-    public function show($id) {
-        if (!isset($this->produtos[$id])) {
+    public function show($id)
+    {
+        $produto = $this->produtoModel->getById($id);
+
+        if (!$produto) {
             http_response_code(404);
             echo "<h1>Produto não encontrado</h1>";
             return;
         }
-
-        $produto = $this->produtos[$id];
-
-        // Também passa produtos em destaque, exceto o atual
-        $produtosDestaque = array_filter(
-            $this->produtos,
-            fn($p, $key) => !empty($p['destaque']) && $key != $id,
-            ARRAY_FILTER_USE_BOTH
-        );
 
         require __DIR__ . '/../Views/produto.phtml';
     }

@@ -31,21 +31,24 @@
       </button>
     </div>
 
-    <h2 class="text-center mb-4">Bolos em Destaque</h2>
-    <div class="container">
-        <div class="row">
-            <?php foreach ($produtosDestaque as $id => $produto): ?>
-            <div class="col-12 col-md-4 mb-4">
-                <div class="card h-100">
-                    <img src="/img/<?= htmlspecialchars($produto['foto']) ?>" class="card-img-top" alt="<?= htmlspecialchars($produto['nome']) ?>" style="height: 200px; object-fit: cover;">
-                    <div class="card-body d-flex flex-column justify-content-between">
-                        <h5 class="card-title"><?= htmlspecialchars($produto['nome']) ?></h5>
-                        <p class="card-text"><strong>R$ <?= number_format($produto['valor'], 2, ',', '.') ?></strong></p>
-                        <a href="/produto/<?= $id ?>" class="btn btn-danger mt-auto">Encomendar</a>
-                    </div>
+   <h2 class="text-center mb-4">Bolos em Destaque</h2>
+<div class="row">
+    <?php foreach ($produtosDestaque as $p): ?>
+        <div class="col-md-4 mb-4">
+            <div class="card">
+                <img src="/img/<?= htmlspecialchars($p['foto'] ?? 'image.gif') ?>" 
+                     alt="<?= htmlspecialchars($p['nome']) ?>" 
+                     class="card-img-top" style="height: 200px; object-fit: cover;">
+                <div class="card-body">
+                    <h5 class="card-title"><?= htmlspecialchars($p['nome']) ?></h5>
+                    <p class="card-text"><strong>R$ <?= number_format($p['valor'], 2, ',', '.') ?></strong></p>
+                    <a href="/produto/<?= $p['id'] ?>" class="btn btn-danger">Encomendar</a>
                 </div>
             </div>
-            <?php endforeach; ?>
+        </div>
+    <?php endforeach; ?>
+</div>
+
             <?php if (empty($produtosDestaque)): ?>
                 <p class="text-center">Nenhum produto em destaque encontrado.</p>
             <?php endif; ?>

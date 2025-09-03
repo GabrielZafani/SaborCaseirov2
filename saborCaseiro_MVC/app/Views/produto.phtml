@@ -1,3 +1,9 @@
+<?php 
+// Define a imagem do produto ou usa a padrão
+$imagem = !empty($produto['foto']) 
+    ? '/img/' . htmlspecialchars($produto['foto']) 
+    : '/img/image.gif';
+?>
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
@@ -15,7 +21,9 @@
 
         <div class="row align-items-center mb-5">
             <div class="col-md-6">
-                <img src="/img/<?= htmlspecialchars($produto['foto']) ?>" alt="<?= htmlspecialchars($produto['nome']) ?>" style="width: 100%; max-height: 400px; object-fit: cover; border-radius: 15px;">
+                <img src="<?= $imagem ?>" 
+                     alt="<?= htmlspecialchars($produto['nome']) ?>" 
+                     style="width: 100%; max-height: 400px; object-fit: cover; border-radius: 15px;">
             </div>
             <div class="col-md-6">
                 <p style="font-size: 1.2rem; line-height: 1.4; margin-top: 1rem;">
@@ -32,13 +40,22 @@
             <h3 class="mb-4">Outros bolos em destaque</h3>
             <div class="row">
                 <?php foreach ($produtosDestaque as $p): ?>
+                <?php 
+                    // Tratamento também nos produtos em destaque
+                    $imagemDestaque = !empty($p['foto']) 
+                        ? '/img/' . htmlspecialchars($p['foto']) 
+                        : '/img/image.gif';
+                ?>
                 <div class="col-md-4 mb-4">
                     <div class="card">
-                        <img src="/img/<?= htmlspecialchars($p['foto']) ?>" alt="<?= htmlspecialchars($p['nome']) ?>" class="card-img-top" style="height: 200px; object-fit: cover;">
+                        <img src="<?= $imagemDestaque ?>" 
+                             alt="<?= htmlspecialchars($p['nome']) ?>" 
+                             class="card-img-top" 
+                             style="height: 200px; object-fit: cover;">
                         <div class="card-body">
                             <h5 class="card-title"><?= htmlspecialchars($p['nome']) ?></h5>
                             <p class="card-text"><strong>R$ <?= number_format($p['valor'], 2, ',', '.') ?></strong></p>
-                            <a href="/produto/<?= array_search($p, $produtosDestaque) ?>" class="btn btn-danger">Encomendar</a>
+                            <a href="/produto/<?= $p['id'] ?>" class="btn btn-danger">Encomendar</a>
                         </div>
                     </div>
                 </div>

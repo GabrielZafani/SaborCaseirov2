@@ -1,38 +1,23 @@
 <?php
 namespace App\Controllers;
 
-class HomeController {
-    private $produtos;
+use App\Models\Produto;
 
-    public function __construct() {
-        // Dados de exemplo para produtos, depois substitua pelo DB
-        $this->produtos = [
-            1 => [
-                'nome' => 'Bolo de Chocolate',
-                'valor' => 45.50,
-                'foto' => 'bolo-chocolate.jpg',
-                'destaque' => true,
-            ],
-            2 => [
-                'nome' => 'Bolo de Cenoura',
-                'valor' => 39.90,
-                'foto' => 'bolo-cenoura.jpg',
-                'destaque' => false,
-            ],
-            3 => [
-                'nome' => 'Bolo Red Velvet',
-                'valor' => 59.00,
-                'foto' => 'bolo-red-velvet.jpg',
-                'destaque' => true,
-            ],
-        ];
+class HomeController
+{
+    private $produtoModel;
+
+    public function __construct()
+    {
+        $pdo = new \PDO("mysql:host=localhost;dbname=projeto", "root", "");
+        $pdo->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
+        $this->produtoModel = new Produto($pdo);
     }
 
-    public function index() {
-        // Passa os produtos para a view
-        $produtosDestaque = array_filter($this->produtos, function($produto) {
-            return !empty($produto['destaque']);
-        });
+    public function index()
+    {
+        // Pega os 3 primeiros produtos, por exemplo
+        $produtosDestaque = $this->produtoModel->getDestaques(3);
 
         require __DIR__ . '/../Views/home.phtml';
     }

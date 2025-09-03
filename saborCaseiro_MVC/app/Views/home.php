@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Home - Sabor Caseiro</title>
+    <link rel="stylesheet" href="/css/style.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+
+
+    <!-- Carousel básico -->
+    <div id="carouselExample" class="carousel slide mb-5">
+      <div class="carousel-inner">
+        <div class="carousel-item active">
+          <img src="/img/banner1.png" class="d-block w-100" alt="Banner 1" style="height: 400px; object-fit: cover;">
+        </div>
+        <div class="carousel-item">
+          <img src="/img/banner2.png" class="d-block w-100" alt="Banner 2" style="height: 400px; object-fit: cover;">
+        </div>
+      </div>
+      <button class="carousel-control-prev" type="button" data-bs-target="#carouselExample" data-bs-slide="prev">
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Anterior</span>
+      </button>
+      <button class="carousel-control-next" type="button" data-bs-target="#carouselExample" data-bs-slide="next">
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Próximo</span>
+      </button>
+    </div>
+
+    <h2 class="text-center mb-4">Bolos em Destaque</h2>
+    <div class="container">
+        <div class="row">
+            <?php foreach ($produtosDestaque as $id => $produto): ?>
+            <div class="col-12 col-md-4 mb-4">
+                <div class="card h-100">
+                    <img src="/img/<?= htmlspecialchars($produto['foto']) ?>" class="card-img-top" alt="<?= htmlspecialchars($produto['nome']) ?>" style="height: 200px; object-fit: cover;">
+                    <div class="card-body d-flex flex-column justify-content-between">
+                        <h5 class="card-title"><?= htmlspecialchars($produto['nome']) ?></h5>
+                        <p class="card-text"><strong>R$ <?= number_format($produto['valor'], 2, ',', '.') ?></strong></p>
+                        <a href="/produto/<?= $id ?>" class="btn btn-danger mt-auto">Encomendar</a>
+                    </div>
+                </div>
+            </div>
+            <?php endforeach; ?>
+            <?php if (empty($produtosDestaque)): ?>
+                <p class="text-center">Nenhum produto em destaque encontrado.</p>
+            <?php endif; ?>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

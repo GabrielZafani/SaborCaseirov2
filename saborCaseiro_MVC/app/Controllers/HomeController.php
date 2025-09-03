@@ -34,6 +34,6 @@ class HomeController {
             return !empty($produto['destaque']);
         });
 
-        require __DIR__ . '/../Views/home.php';
+        require __DIR__ . '/../Views/home.phtml';
     }
 }

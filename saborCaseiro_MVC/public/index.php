@@ -6,8 +6,9 @@ require __DIR__ . '/../vendor/autoload.php';
 
 use App\Controllers\HomeController;
 use App\Controllers\QuemSomosController;
-use App\Controllers\ProdutosController;
+use App\Controllers\ProdutoController;
 use App\Controllers\ContatoController;
+use App\Controllers\ProdutosController;
 
 // Pega a URI
 $uri = trim(parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH), '/');
@@ -34,7 +35,19 @@ switch ($uriParts[0]) {
         break;
 
     case 'produtos':
-        $controller = new ProdutosController();
+    $controller = new ProdutosController();
+
+    if (isset($uriParts[1]) && is_numeric($uriParts[1])) {
+        // Detalhe de 1 produto
+        $controller->show((int)$uriParts[1]);
+    } else {
+        // Catálogo de todos os produtos
+        $controller->index();
+    }
+    break;
+
+    case 'produto':
+        $controller = new ProdutoController();
         if (isset($uriParts[1]) && is_numeric($uriParts[1])) {
             $controller->show((int)$uriParts[1]);
         } else {
@@ -51,7 +64,7 @@ switch ($uriParts[0]) {
             $controller->index();
         }
         break;
-
+    
     default:
         http_response_code(404);
         echo "<h1>Página não encontrada</h1>";

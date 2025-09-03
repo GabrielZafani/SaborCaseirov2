@@ -4,12 +4,114 @@
     <meta charset="UTF-8">
     <title><?= htmlspecialchars($dados['titulo']) ?></title>
     <style>
-        /* Seu CSS responsivo que já me enviou */
-        /* ... (igual anterior) */
+        .quem-somos {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 40px;
+    max-width: 900px;
+    margin: 40px auto;
+    }
+
+    @media (max-width: 700px) {
+        .quem-somos {
+            flex-direction: column;
+            gap: 20px;
+            padding: 20px;
+        }
+        .quem-somos img {
+            order: 0;
+            max-width: 200px;
+            border-radius: 30px;
+            margin: 0 auto;
+        }
+        .quem-somos-texto {
+            order: 1;
+            width: 100%;
+            text-align: center;
+        }
+        .quem-somos-texto h2 {
+            text-align: center;
+            margin-bottom: 20px;
+            width: 100%;
+        }
+        .localizacao {
+            flex-direction: column;
+            gap: 20px;
+            align-items: center;
+            padding: 20px;
+        }
+        .localizacao iframe {
+            width: 100%;
+            height: 300px;
+            min-width: unset;
+        }
+        .localizacao-texto {
+            padding: 0;
+            width: 100%;
+            text-align: center;
+            font-size: 1rem;
+            margin-bottom: 20px;
+            display: block;
+        }
+}
+.quem-somos img {
+    max-width: 300px;
+    width: 100%;
+    height: auto;
+    order: 1;
+    border-radius: 50px;
+}
+
+@media (max-width: 700px) {
+    
+}
+
+.localizacao {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    max-width: 900px;
+    margin: 40px auto;
+}
+.localizacao-texto {
+    text-align: center;
+    margin-bottom: 20px;
+}
+.localizacao iframe {
+    width: 100%;
+    height: 450px;
+    border: 0;
+}
+@media (min-width: 700px) {
+    .localizacao {
+        flex-direction: row;
+        gap: 40px;
+        align-items: flex-start;
+    }
+    .localizacao iframe {
+        width: 50%;
+        min-width: 300px;
+        height: 350px;
+    }
+    .localizacao-texto {
+        padding: 60px;
+        width: 50%;
+        text-align: left;
+        FONT-SIZE: 1.2rem;
+        margin-bottom: 0;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+    }
+    
+}
     </style>
 </head>
 <body>
-   <?php include __DIR__ . "/header.phtml"; ?>
+    <?php include __DIR__ . "/header.phtml"; ?>
+   
 <section class="quem-somos">
     <div class="quem-somos-texto">
         <h2>Quem Somos</h2>

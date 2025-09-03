@@ -3,7 +3,7 @@ namespace App\Controllers;
 
 class ContatoController {
     public function index() {
-        require __DIR__ . '/../Views/contato.php';
+        require __DIR__ . '/../Views/contato.phtml';
     }
 
     // Método para processar envio do formulário (simples)

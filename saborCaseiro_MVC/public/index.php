@@ -1,32 +1,36 @@
 <?php
-spl_autoload_register(function($class) {
-    $prefix = 'App\\';
-    $base_dir = __DIR__ . '/../app/';
-    $len = strlen($prefix);
-    if (strncmp($prefix, $class, $len) !== 0) return;
-    $relative_class = substr($class, $len);
-    $file = $base_dir . str_replace('\\', '/', $relative_class) . '.php';
-    if (file_exists($file)) require $file;
-});
+declare(strict_types=1);
+
+// Autoload do Composer
+require __DIR__ . '/../vendor/autoload.php';
 
 use App\Controllers\HomeController;
 use App\Controllers\QuemSomosController;
 use App\Controllers\ProdutoController;
 use App\Controllers\ContatoController;
 
+// Pega a URI
 $uri = trim(parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH), '/');
 $uriParts = explode('/', $uri);
 
+// Se seu projeto estiver em subpasta, ex: http://localhost/saborCaseiro_MVC/
+// Defina o nome da pasta base:
+$basePath = 'saborCaseiro_MVC/public'; 
+if (strpos($uri, $basePath) === 0) {
+    $uri = substr($uri, strlen($basePath));
+    $uri = trim($uri, '/');
+    $uriParts = explode('/', $uri);
+}
+
+// Roteamento
 switch ($uriParts[0]) {
     case '':
     case 'home':
-        $controller = new HomeController();
-        $controller->index();
+        (new HomeController())->index();
         break;
 
     case 'quem-somos':
-        $controller = new QuemSomosController();
-        $controller->index();
+        (new QuemSomosController())->index();
         break;
 
     case 'produto':
@@ -35,7 +39,7 @@ switch ($uriParts[0]) {
             $controller->show((int)$uriParts[1]);
         } else {
             http_response_code(404);
-            echo "<h1>Produto não encontrado</h1>aa";
+            echo "<h1>Produto não encontrado</h1>";
         }
         break;
 

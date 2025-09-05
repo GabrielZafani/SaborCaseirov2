@@ -17,6 +17,6 @@ class QuemSomosController {
             ]
         ];
 
-        require __DIR__ . '/../Views/quem-somos.php';
+        require __DIR__ . '/../Views/quem-somos.phtml';
     }
 }

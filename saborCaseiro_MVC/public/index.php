@@ -6,7 +6,7 @@ require __DIR__ . '/../vendor/autoload.php';
 
 use App\Controllers\HomeController;
 use App\Controllers\QuemSomosController;
-use App\Controllers\ProdutoController;
+use App\Controllers\ProdutosController;
 use App\Controllers\ContatoController;
 use App\Controllers\ProdutosController;
 
@@ -35,6 +35,7 @@ switch ($uriParts[0]) {
         break;
 
     case 'produtos':
+<<<<<<< Updated upstream
     $controller = new ProdutosController();
 
     if (isset($uriParts[1]) && is_numeric($uriParts[1])) {
@@ -48,6 +49,9 @@ switch ($uriParts[0]) {
 
     case 'produto':
         $controller = new ProdutoController();
+=======
+        $controller = new ProdutosController();
+>>>>>>> Stashed changes
         if (isset($uriParts[1]) && is_numeric($uriParts[1])) {
             $controller->show((int)$uriParts[1]);
         } else {

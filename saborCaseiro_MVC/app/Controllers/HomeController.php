@@ -1,24 +1,18 @@
 <?php
 namespace App\Controllers;
 
-use App\Models\Produto;
+use App\Models\Produtos;   // atenção: plural
+use App\Core\Controller;
 
-class HomeController
-{
-    private $produtoModel;
+class HomeController extends Controller {
+    private $produto;
 
-    public function __construct()
-    {
-        $pdo = new \PDO("mysql:host=localhost;dbname=projeto", "root", "");
-        $pdo->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
-        $this->produtoModel = new Produto($pdo);
+    public function __construct() {
+        $this->produto = new Produtos();   // plural
     }
 
-    public function index()
-    {
-        // Pega os 3 primeiros produtos, por exemplo
-        $produtosDestaque = $this->produtoModel->getDestaques(3);
-
-        require __DIR__ . '/../Views/home.phtml';
+    public function index() {
+        $produtos = $this->produto->getAll();
+        $this->render('home', ['produtos' => $produtos]);
     }
 }

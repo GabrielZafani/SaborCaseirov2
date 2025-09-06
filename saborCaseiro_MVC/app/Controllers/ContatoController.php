@@ -30,3 +30,4 @@ class ContatoController {
         require __DIR__ . '/../Views/contato.php';
     }
 }
+ 

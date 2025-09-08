@@ -1,3 +1,6 @@
+<?php include __DIR__ . '/partials/header.phtml'; ?>
+
+
 <h2 class="text-center mt-5 mb-4">Catálogo de Produtos</h2>
 
 <div class="catalogo">
@@ -5,12 +8,11 @@
         <?php foreach ($produtos as $produto): ?>
             <div class="produto-card">
                 <div class="img-container">
-                    <img src="img/<?= htmlspecialchars($produto['foto']) ?>" alt="<?= htmlspecialchars($produto['nome']) ?>">
+                    <img src="img/<?= htmlspecialchars($produto['imagem']) ?>" alt="<?= htmlspecialchars($produto['nome']) ?>">
                 </div>
                 <div class="info">
                     <h3><?= htmlspecialchars($produto['nome']) ?></h3>
-                    <p><?= htmlspecialchars($produto['descricao']) ?></p>
-                    <p class="preco">R$ <?= number_format($produto['preco'], 2, ',', '.') ?></p>
+                    <p class="valor">R$ <?= number_format($produto['valor'], 2, ',', '.') ?></p>
                     <a href="produto/<?= $produto['id'] ?>" class="btn-detalhes">Ver detalhes</a>
                 </div>
             </div>
@@ -23,7 +25,7 @@
 <style>
 .catalogo {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    grid-template-columns: repeat(4, 1fr);
     gap: 25px;
     padding: 0 20px;
 }

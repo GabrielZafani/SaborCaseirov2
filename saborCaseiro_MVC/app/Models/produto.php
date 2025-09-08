@@ -20,12 +20,12 @@ class Produto {
     }
 
     public function getAll() {
-        $stmt = $this->pdo->query("SELECT * FROM produtos");
+        $stmt = $this->pdo->query("SELECT * FROM produto");
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
     public function getById($id) {
-        $stmt = $this->pdo->prepare("SELECT * FROM produtos WHERE id = :id");
+        $stmt = $this->pdo->prepare("SELECT * FROM produto WHERE id = :id");
         $stmt->bindValue(':id', $id, PDO::PARAM_INT);
         $stmt->execute();
         return $stmt->fetch(PDO::FETCH_ASSOC);

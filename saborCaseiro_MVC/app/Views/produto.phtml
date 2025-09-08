@@ -1,12 +1,12 @@
 <?php if (!empty($produto)): ?>
     <div class="produto-detalhe">
         <div class="img-container">
-            <img src="img/<?= htmlspecialchars($produto['foto']) ?>" alt="<?= htmlspecialchars($produto['nome']) ?>">
+            <img src="img/<?= htmlspecialchars($produto['imagem']) ?>" alt="<?= htmlspecialchars($produto['nome']) ?>">
         </div>
         <div class="info">
             <h2><?= htmlspecialchars($produto['nome']) ?></h2>
             <p><?= htmlspecialchars($produto['descricao']) ?></p>
-            <p class="preco">R$ <?= number_format($produto['preco'], 2, ',', '.') ?></p>
+            <p class="valor">R$ <?= number_format($produto['valor'], 2, ',', '.') ?></p>
             <a href="/produtos" class="btn-voltar">Voltar ao catálogo</a>
         </div>
     </div>

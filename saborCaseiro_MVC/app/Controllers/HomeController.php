@@ -1,18 +1,22 @@
 <?php
 namespace App\Controllers;
 
-use App\Models\Produtos;   // atenção: plural
-use App\Core\Controller;
+use App\Models\Produto;
 
-class HomeController extends Controller {
+class HomeController {
     private $produto;
 
     public function __construct() {
-        $this->produto = new Produtos();   // plural
+        $this->produto = new Produto();
     }
 
     public function index() {
         $produtos = $this->produto->getAll();
-        $this->render('home', ['produtos' => $produtos]);
+        include __DIR__ . '/../Views/produtos.phtml';
+    }
+
+    public function detalhe($id) {
+        $produto = $this->produto->getById($id);
+        include __DIR__ . '/../Views/produto.phtml';
     }
 }

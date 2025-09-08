@@ -2,32 +2,25 @@
 namespace App\Controllers;
 
 use App\Models\Produto;
-use PDO;
+use App\Core\Controller;
 
-class ProdutoController
+class ProdutoController extends Controller
 {
     private $produtoModel;
 
     public function __construct()
     {
-        // Conexão PDO (NÃO mysqli)
-        $dsn = "mysql:host=localhost;dbname=projeto;charset=utf8";
-        $user = "root";   // ajuste se seu MySQL tiver senha
-        $pass = "";
-
-        $pdo = new PDO($dsn, $user, $pass);
-        $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-
-        // injeta no model
-        $this->produtoModel = new Produto($pdo);
+        $this->produtoModel = new Produto(); // Model já conecta ao banco
     }
 
+    // Catálogo de produtos
     public function index()
     {
         $produtos = $this->produtoModel->getAll();
-        require __DIR__ . '/../Views/produtos.phtml';
+        $this->render("produtos", ["produtos" => $produtos]);
     }
 
+    // Página de detalhes de um produto
     public function show($id)
     {
         $produto = $this->produtoModel->getById($id);
@@ -38,6 +31,6 @@ class ProdutoController
             return;
         }
 
-        require __DIR__ . '/../Views/produto.phtml';
+        $this->render("produto", ["produto" => $produto]);
     }
 }

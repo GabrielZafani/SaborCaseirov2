@@ -6,47 +6,35 @@ require __DIR__ . '/../vendor/autoload.php';
 use App\Controllers\HomeController;
 use App\Controllers\QuemSomosController;
 use App\Controllers\ContatoController;
+use App\Controllers\NotFoundController;
+use App\Controllers\ProdutoController;
 
-$uri = trim(parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH), '/');
-$uriParts = explode('/', $uri);
+// Normaliza a URI
+$uri = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
+$basePath = '/saborCaseiro_MVC/public'; 
+$uri = str_replace($basePath, '', $uri);
 
-$basePath = 'saborCaseiro_MVC/public';
-if (strpos($uri, $basePath) === 0) {
-    $uri = substr($uri, strlen($basePath));
-    $uri = trim($uri, '/');
-    $uriParts = explode('/', $uri);
+if ($uri === '' || $uri === '/') {
+    $uri = '/home'; 
 }
 
-switch ($uriParts[0]) {
-    case '':
-    case 'home':
-        (new HomeController())->index();
-        break;
+$pages = [
+    '/home'          => [HomeController::class, 'index'],
+    '/quem-somos'    => [QuemSomosController::class, 'index'],
+    '/contato'       => [ContatoController::class, 'index'],
+    '/produtos'      => [ProdutoController::class, 'index'],
+    '/contato/enviar'=> [ContatoController::class, 'enviar'],
+];
 
-    case 'quem-somos':
-        (new QuemSomosController())->index();
-        break;
-
-    case 'produtos':
-        $controller = new HomeController();
-        if (isset($uriParts[1]) && is_numeric($uriParts[1])) {
-            $controller->detalhe((int)$uriParts[1]);
-        } else {
-            $controller->index();
-        }
-        break;
-
-    case 'contato':
-        $controller = new ContatoController();
-        if (isset($uriParts[1]) && $uriParts[1] === 'enviar' && $_SERVER['REQUEST_METHOD'] === 'POST') {
-            $controller->enviar();
-        } else {
-            $controller->index();
-        }
-        break;
-
-    default:
-        http_response_code(404);
-        echo "<h1>Página não encontrada</h1>";
-        break;
+// 🔹 Captura rotas do tipo /produto/{id}
+if (preg_match('#^/produto/(\d+)$#', $uri, $matches)) {
+    $controller = new ProdutoController();
+    $controller->detalhe((int)$matches[1]);
+    exit;
 }
+
+// Se não achar a rota, cai no NotFoundController
+[$controllerClass, $method] = $pages[$uri] ?? [NotFoundController::class, 'index'];
+
+$controller = new $controllerClass();
+$controller->$method();

@@ -1,36 +1,33 @@
 <?php
 namespace App\Controllers;
 
-use App\Models\Produto;
 use App\Core\Controller;
+use App\Models\Produto;
 
 class ProdutoController extends Controller
 {
-    private $produtoModel;
+    private $produto;
 
     public function __construct()
     {
-        $this->produtoModel = new Produto(); // Model já conecta ao banco
+        $this->produto = new Produto();
     }
 
-    // Catálogo de produtos
     public function index()
     {
-        $produtos = $this->produtoModel->getAll();
-        $this->render("produtos", ["produtos" => $produtos]);
+        $produtos = $this->produto->getAll();
+        $this->render('produtos', ['produtos' => $produtos]);
     }
 
-    // Página de detalhes de um produto
-    public function show($id)
+    public function detalhe(int $id)
     {
-        $produto = $this->produtoModel->getById($id);
+        $produto = $this->produto->getById($id);
 
         if (!$produto) {
-            http_response_code(404);
-            echo "<h1>Produto não encontrado</h1>";
+            echo "<p>Produto não encontrado!</p>";
             return;
         }
 
-        $this->render("produto", ["produto" => $produto]);
+        $this->render('produto', ['produto' => $produto]);
     }
 }

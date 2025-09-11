@@ -30,4 +30,11 @@ class Produto {
         $stmt->execute();
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
+
+    public function getDestaques() {
+    $sql = "SELECT * FROM produto WHERE destaque = 1";
+    $stmt = $this->pdo->query($sql);
+    return $stmt->fetchAll(\PDO::FETCH_ASSOC);
+}
+
 }

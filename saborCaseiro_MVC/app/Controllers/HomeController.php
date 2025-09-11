@@ -13,10 +13,9 @@ class HomeController extends Controller {
 
     // Página inicial
     public function index() {
-        // Busca produtos em destaque (pode criar getDestaques no Model se quiser filtrar)
-        $produtosDestaque = $this->produto->getAll();
+        // Apenas produtos em destaque
+        $produtosDestaque = $this->produto->getDestaques();
 
-        // Renderiza a view home.phtml
         $this->render('home', [
             'produtosDestaque' => $produtosDestaque
         ]);

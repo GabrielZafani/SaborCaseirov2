@@ -8,6 +8,10 @@
             <p><?= htmlspecialchars($produto['descricao']) ?></p>
             <p class="valor">R$ <?= number_format($produto['valor'], 2, ',', '.') ?></p>
             <a href="/produtos" class="btn-voltar">Voltar ao catálogo</a>
+            <a href="/contato?produto_id=<?= $produto['id'] ?>&valor=<?= $produto['valor'] ?>" 
+   class="btn-comprar">
+   Comprar
+</a>
         </div>
     </div>
 <?php else: ?>
@@ -77,4 +81,20 @@
     font-size: 1.2em;
     padding: 30px;
 }
+        .btn-comprar {
+            display: inline-block;
+            padding: 10px 24px;
+            background-color: #ff6b6b;
+            color: #fff;
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: bold;
+            margin-left: 12px;
+            transition: background-color 0.3s, box-shadow 0.3s;
+            box-shadow: 0 2px 8px rgba(255,107,107,0.15);
+        }
+        .btn-comprar:hover {
+            background-color: #e05555;
+            box-shadow: 0 4px 16px rgba(255,107,107,0.25);
+        }
 </style>

@@ -77,7 +77,7 @@ class ContatoController extends Controller
         
         $pdo->commit();
 
-        // Mostra alerta e volta para a página de contato
+       
         echo "<script>
                 alert('Pedido enviado com sucesso!');
                 window.location.href = '/saborCaseiro_MVC/public/contato';

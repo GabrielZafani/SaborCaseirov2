@@ -4,7 +4,7 @@ namespace App\Controllers;
 class QuemSomosController {
 
     public function index() {
-        // Dados estáticos (sem banco)
+        
         $dados = [
             'titulo' => 'Quem Somos - Sabor Caseiro',
             'texto' => "Somos uma confeitaria dedicada a criar doces deliciosos e artesanais, feitos com amor e ingredientes de alta qualidade. Nosso objetivo é levar sabor e alegria a cada cliente que visita nossa loja ou nos encomenda doces especiais.",
@@ -15,7 +15,6 @@ class QuemSomosController {
             ]
         ];
 
-        // Inclui a view **depois de definir a variável**
         include __DIR__ . '/../Views/quem-somos.phtml';
     }
 }

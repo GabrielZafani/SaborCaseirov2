@@ -36,7 +36,7 @@ class Cliente
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    // Buscar cliente por ID
+ 
     public function getById($id)
     {
         $sql = "SELECT c.*, e.cep, e.estado, e.municipio, e.bairro, e.rua, e.numero
@@ -49,7 +49,7 @@ class Cliente
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
 
-    // Atualizar cliente
+ 
     public function update($id, $nome, $cpf, $celular, $endereco_id)
     {
         $stmt = $this->db->prepare("
@@ -65,11 +65,6 @@ class Cliente
         return $stmt->execute();
     }
 
-    // Deletar cliente
-    public function delete($id)
-    {
-        $stmt = $this->db->prepare("DELETE FROM cliente WHERE id = :id");
-        $stmt->bindParam(':id', $id);
-        return $stmt->execute();
-    }
+  
+    
 }

@@ -7,7 +7,7 @@ use App\Controllers\HomeController;
 use App\Controllers\QuemSomosController;
 use App\Controllers\ContatoController;
 use App\Controllers\ProdutoController;
-use App\Controllers\NotFoundController; // 🔹 garante o fallback
+use App\Controllers\NotFoundController; 
 
 // Normaliza a URI
 $uri = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
@@ -18,7 +18,7 @@ if ($uri === '' || $uri === '/') {
     $uri = '/home'; 
 }
 
-// 🔹 Mapeamento de rotas fixas
+// Mapeamento de rotas fixas
 $pages = [
     '/home'           => [HomeController::class, 'index'],
     '/quem-somos'     => [QuemSomosController::class, 'index'],
@@ -27,14 +27,14 @@ $pages = [
     '/produtos'       => [ProdutoController::class, 'index'],
 ];
 
-// 🔹 Rotas dinâmicas: /produto/{id}
+// Rotas dinâmicas
 if (preg_match('#^/produto/(\d+)$#', $uri, $matches)) {
     $controller = new ProdutoController();
     $controller->detalhe((int)$matches[1]);
     exit;
 }
 
-// 🔹 Fallback seguro (se rota não existir)
+
 if (isset($pages[$uri])) {
     [$controllerClass, $method] = $pages[$uri];
 } else {
@@ -42,6 +42,6 @@ if (isset($pages[$uri])) {
     $method = 'index';
 }
 
-// 🔹 Cria o controller e chama o método
+
 $controller = new $controllerClass();
 $controller->$method();

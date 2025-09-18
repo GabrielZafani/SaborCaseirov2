@@ -4,7 +4,7 @@ namespace App\Models;
 use PDO;
 use PDOException;
 
-class Produto   // mantém singular, igual já está
+class Produto   
 {
     private $db;
 
@@ -12,7 +12,7 @@ class Produto   // mantém singular, igual já está
     {
         try {
             $host = "localhost";
-            $dbname = "projeto";  // ajuste se o teu banco tiver outro nome
+            $dbname = "projeto";  
             $user = "root";
             $pass = "";
 

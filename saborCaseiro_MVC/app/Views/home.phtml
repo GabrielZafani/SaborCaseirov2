@@ -10,7 +10,7 @@
 <style>
 .cards-grid {
   display: grid;
-  grid-template-columns: repeat(3, 30rem); /* padrão desktop */
+  grid-template-columns: repeat(3, 30rem); 
   justify-content: center;
   gap: 2rem;
 }
@@ -19,23 +19,23 @@
   width: 30rem;
 }
 
-/* Tablet (máx. 992px) */
+/
 @media (max-width: 992px) {
   .cards-grid {
-    grid-template-columns: repeat(2, 1fr); /* 2 por linha */
+    grid-template-columns: repeat(2, 1fr); 
   }
   .cards-grid .card {
-    width: 100%; /* ocupa toda a coluna */
+    width: 100%; 
   }
 }
 
-/* Celular (máx. 576px) */
+
 @media (max-width: 576px) {
   .cards-grid {
-    grid-template-columns: 1fr; /* só 1 por linha */
+    grid-template-columns: 1fr; 
   }
   .cards-grid .card {
-    width: 100%; /* ocupa toda a largura disponível */
+    width: 100%; 
   }
 }
 

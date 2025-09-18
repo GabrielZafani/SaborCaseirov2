@@ -14,13 +14,13 @@ class Pedido
     }
 
     /**
-     * Cria um novo pedido no banco de dados.
+     * 
      * 
      * @param int $produto_id
      * @param int $cliente_id
      * @param int $quantidade
      * @param float $valor
-     * @return int|false Retorna o ID do novo pedido ou false em caso de falha
+     * @return int|false 
      */
     public function create(int $produto_id, int $cliente_id, int $quantidade, float $valor)
     {

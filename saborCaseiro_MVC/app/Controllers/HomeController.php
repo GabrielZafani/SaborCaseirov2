@@ -11,9 +11,9 @@ class HomeController extends Controller {
         $this->produto = new Produto();
     }
 
-    // Página inicial
+    
     public function index() {
-        // Apenas produtos em destaque
+       
         $produtosDestaque = $this->produto->getDestaques();
 
         $this->render('home', [
@@ -21,7 +21,7 @@ class HomeController extends Controller {
         ]);
     }
 
-    // Página de detalhes de um produto
+    
     public function detalhe($id) {
         $produto = $this->produto->getById($id);
 

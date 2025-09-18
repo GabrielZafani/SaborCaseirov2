@@ -14,7 +14,7 @@ class Pedido
     }
 
     /**
-     * Insere um novo pedido no banco de dados.
+     * 
      *
      * @param int $produto_id
      * @param int $cliente_id
@@ -33,8 +33,7 @@ class Pedido
             return $stmt->execute([$produto_id, $cliente_id, $quantidade, $valor]);
             
         } catch (\PDOException $e) {
-            // Em ambiente de desenvolvimento, você pode logar ou exibir o erro
-            // Em produção, retorne false para evitar mostrar detalhes do erro ao usuário
+           
             error_log("Erro ao criar pedido: " . $e->getMessage());
             return false;
         }

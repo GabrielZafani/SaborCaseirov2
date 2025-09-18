@@ -1,92 +1,94 @@
 <?php
+
 namespace App\Controllers;
 
-use App\Core\Controller;
-use PDO;
+use App\Core\Controller; // Se você tiver uma classe base Controller
+use App\Models\Endereco;
+use App\Models\Cliente;
+use App\Models\Pedido;
+use Exception; // Importa a classe de exceção
 
 class ContatoController extends Controller
-{
-    private $db;
-
-    public function __construct()
+{   
+      private function view(string $viewName, array $data = [])
     {
-        try {
-            $this->db = new PDO("mysql:host=localhost;dbname=projeto;charset=utf8", "root", "");
-            $this->db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-        } catch (\PDOException $e) {
-            die("Erro de conexão: " . $e->getMessage());
+        extract($data);
+        $viewPath = __DIR__ . "/../Views/{$viewName}.phtml";
+        
+        if (file_exists($viewPath)) {
+            require $viewPath;
+        } else {
+            echo "Erro: View '{$viewName}' não encontrada.";
         }
     }
-
-   
-
+    
     public function index()
     {
-        include __DIR__ . '/../Views/contato.phtml';
-        echo <<<JS
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.min.js"></script>
-<script>
-$(function(){
-    $('[name="cpf"]').mask('000.000.000-00');
-    $('[name="celular"]').mask('(00) 00000-0000');
-    $('[name="cep"]').mask('00000-000');
-});
-</script>
-JS;
+        $this->view('contato'); // O método existe na própria classe
     }
-
+    // Este método irá processar a requisição POST do formulário
     public function enviar()
-    {
-        $nome      = $_POST['nome'] ?? '';
-        $cpf       = $_POST['cpf'] ?? '';
-        $celular   = $_POST['celular'] ?? '';
-        $cep       = $_POST['cep'] ?? '';
-        $estado    = $_POST['estado'] ?? '';
-        $municipio = $_POST['municipio'] ?? '';
-        $bairro    = $_POST['bairro'] ?? '';
-        $rua       = $_POST['rua'] ?? '';
-        $numero    = $_POST['numero'] ?? '';
+{
+    $pdo = require __DIR__ . '/../Core/database.php';
 
-        try {
-            // Inicia transação
-            $this->db->beginTransaction();
+    $enderecoModel = new Endereco($pdo);
+    $clienteModel  = new Cliente($pdo);
+    $pedidoModel   = new Pedido($pdo);
 
-            // Insere endereço
-            $stmt1 = $this->db->prepare(
-                "INSERT INTO endereco (cep, estado, municipio, bairro, rua, numero) 
-                 VALUES (?, ?, ?, ?, ?, ?)"
-            );
-            $stmt1->execute([$cep, $estado, $municipio, $bairro, $rua, $numero]);
+    // Dados do cliente
+    $nome    = $_POST['nome'] ?? '';
+    $cpf     = $_POST['cpf'] ?? '';
+    $celular = $_POST['celular'] ?? '';
 
-            $endereco_id = $this->db->lastInsertId();
+    // Dados do endereço
+    $cep       = $_POST['cep'] ?? '';
+    $estado    = $_POST['estado'] ?? '';
+    $municipio = $_POST['municipio'] ?? '';
+    $bairro    = $_POST['bairro'] ?? '';
+    $rua       = $_POST['rua'] ?? '';
+    $numero    = $_POST['numero'] ?? '';
 
-            // Insere cliente vinculado ao endereço
-            $stmt2 = $this->db->prepare(
-                "INSERT INTO cliente (nome, cpf, celular, endereco_id) 
-                 VALUES (?, ?, ?, ?)"
-            );
-            $stmt2->execute([$nome, $cpf, $celular, $endereco_id]);
+    // Dados do pedido
+    $produto_id = $_POST['produto_id'] ?? 0;
+    $quantidade = $_POST['quantidade'] ?? 1;
+    $valor      = $_POST['valor'] ?? 0.00;
 
-            
-          
-           
-$this->db->commit();
+    try {
+        $pdo->beginTransaction();
 
-echo "<script>
-    alert('✅ Cliente cadastrado com sucesso!');
-    window.location.href = '/saborCaseiro_MVC/public/contato';
-</script>";
-} catch (\PDOException $e) {
-    $this->db->rollBack();
-    echo "<script>
-        alert('❌ Erro ao salvar os dados: " . addslashes($e->getMessage()) . "');
-        window.location.href = '/saborCaseiro_MVC/public/contato';
-    </script>";
-}
+        // 1. Cria endereço
+        $endereco_id = $enderecoModel->create($cep, $estado, $municipio, $bairro, $rua, $numero);
+        if (!$endereco_id) {
+            throw new Exception("Erro ao inserir o endereço.");
+        }
 
+        // 2. Cria cliente
+        $cliente_id = $clienteModel->create($nome, $cpf, $celular, $endereco_id);
+        if (!$cliente_id) {
+            throw new Exception("Erro ao inserir o cliente.");
+        }
 
+        // 3. Cria pedido
+        $pedido_id = $pedidoModel->create((int)$produto_id, (int)$cliente_id, (int)$quantidade, (float)$valor);
+        if (!$pedido_id) {
+            throw new Exception("Erro ao inserir o pedido.");
+        }
 
+        // Se chegou até aqui → tudo certo
+        $pdo->commit();
+
+        // Mostra alerta e volta para a página de contato
+        echo "<script>
+                alert('Pedido enviado com sucesso!');
+                window.location.href = '/saborCaseiro_MVC/public/contato';
+              </script>";
+        exit;
+
+    } catch (Exception $e) {
+        if ($pdo->inTransaction()) {
+            $pdo->rollBack();
+        }
+        die("Erro ao processar o pedido: " . $e->getMessage());
     }
-
+}
 }

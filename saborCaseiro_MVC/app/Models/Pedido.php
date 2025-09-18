@@ -1,51 +1,43 @@
 <?php
+
 namespace App\Models;
 
 use PDO;
 
-class ProdutoPedido
+class Pedido
 {
     private $db;
 
-    public function __construct()
+    public function __construct(PDO $db)
     {
-        $this->db = new PDO("mysql:host=localhost;dbname=projeto;charset=utf8", "root", "");
-        $this->db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        $this->db = $db;
     }
 
-    // Criar um item de pedido
-    public function criar($dados)
+    /**
+     * Cria um novo pedido no banco de dados.
+     * 
+     * @param int $produto_id
+     * @param int $cliente_id
+     * @param int $quantidade
+     * @param float $valor
+     * @return int|false Retorna o ID do novo pedido ou false em caso de falha
+     */
+    public function create(int $produto_id, int $cliente_id, int $quantidade, float $valor)
     {
         $stmt = $this->db->prepare("
-            INSERT INTO produto_pedido (pedido_id, produto_id, quantidade) 
-            VALUES (:pedido_id, :produto_id, :quantidade)
+            INSERT INTO pedido (produto_id, cliente_id, quantidade, valor)
+            VALUES (:produto_id, :cliente_id, :quantidade, :valor)
         ");
-        $stmt->execute([
-            ':pedido_id'  => $dados['pedido_id'],
-            ':produto_id' => $dados['produto_id'],
-            ':quantidade' => $dados['quantidade']
-        ]);
 
-        return $this->db->lastInsertId();
-    }
+        $stmt->bindParam(':produto_id', $produto_id, PDO::PARAM_INT);
+        $stmt->bindParam(':cliente_id', $cliente_id, PDO::PARAM_INT);
+        $stmt->bindParam(':quantidade', $quantidade, PDO::PARAM_INT);
+        $stmt->bindParam(':valor', $valor);
 
-    // Buscar todos os produtos de um pedido
-    public function getProdutosDoPedido($pedidoId)
-    {
-        $stmt = $this->db->prepare("
-            SELECT pp.*, p.nome, p.preco, p.imagem
-            FROM produto_pedido pp
-            JOIN produto p ON pp.produto_id = p.id
-            WHERE pp.pedido_id = :pedido_id
-        ");
-        $stmt->execute([':pedido_id' => $pedidoId]);
-        return $stmt->fetchAll(PDO::FETCH_ASSOC);
-    }
+        if ($stmt->execute()) {
+            return (int) $this->db->lastInsertId();
+        }
 
-    // Excluir todos os produtos de um pedido
-    public function excluirPorPedido($pedidoId)
-    {
-        $stmt = $this->db->prepare("DELETE FROM produto_pedido WHERE pedido_id = :pedido_id");
-        $stmt->execute([':pedido_id' => $pedidoId]);
+        return false;
     }
 }

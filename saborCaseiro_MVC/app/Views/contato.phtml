@@ -80,6 +80,11 @@
     <div class="form-row">
         <input type="hidden" name="produto_id" value="<?= $_GET['produto_id'] ?? '' ?>">
         <input type="hidden" name="valor" value="<?= $_GET['valor'] ?? '' ?>">
+        
+        <div class="form-group">
+            <label for="quantidade">Quantidade:</label>
+            <input type="number" name="quantidade" id="quantidade" value="1" min="1" required>
+        </div>
 
         <div class="form-group">
             <label>Produto:</label>
@@ -91,88 +96,7 @@
         </div>
     </div>
 
-    <button type="submit">Enviar</button>
+    <button type="submit">Enviar Pedido</button>
 </form>
 
 <?php include __DIR__ . '/footer.phtml'; ?>
-
-<style>
-    h2 {
-        text-align: center;
-        margin-top: 30px;
-        font-family: 'Segoe UI', Arial, sans-serif;
-        font-size: 2em;
-    }
-
-    form {
-        max-width: 900px;
-        margin: 40px auto;
-        padding: 30px 25px;
-        backdrop-filter: blur(8px);
-        background: rgba(255, 249, 220, 0.7);
-        border-radius: 8px;
-        box-shadow: 0 2px 8px rgba(0,0,0,0.08);
-        font-family: 'Segoe UI', Arial, sans-serif;
-    }
-
-    form h3 {
-        margin-top: 24px;
-        color: #c0392b;
-        font-size: 1.15em;
-        font-weight: 600;
-    }
-
-    .form-row {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 20px;
-    }
-
-    .form-group {
-        flex: 1;
-        min-width: 200px;
-    }
-
-    label {
-        display: block;
-        margin-bottom: 6px;
-        color: #333;
-        font-weight: 500;
-    }
-
-    input[type="text"],
-    select {
-        width: 100%;
-        padding: 8px 10px;
-        border: 1px solid #ddd;
-        border-radius: 4px;
-        background: #fafafa;
-        font-size: 1em;
-        transition: border-color 0.2s;
-    }
-
-    input[type="text"]:focus,
-    select:focus {
-        border-color: #c0392b;
-        outline: none;
-    }
-
-    button[type="submit"] {
-        margin-top: 28px;
-        padding: 10px 28px;
-        background: #c0392b;
-        color: #fff;
-        border: none;
-        border-radius: 5px;
-        font-size: 1.08em;
-        font-weight: 600;
-        cursor: pointer;
-        transition: background 0.2s;
-        display: block;
-        margin-left: auto;
-    }
-
-    button[type="submit"]:hover {
-        background: #a93226;
-    }
-</style>

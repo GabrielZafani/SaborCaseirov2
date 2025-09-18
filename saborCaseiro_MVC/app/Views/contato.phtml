@@ -4,72 +4,92 @@
 
 <form action="/saborCaseiro_MVC/public/contato/enviar" method="POST">
     <h3>Dados do Cliente</h3>
-    <label for="nome">Nome:</label>
-    <input type="text" name="nome" id="nome" required>
-
-    <label for="cpf">CPF:</label>
-    <input type="text" name="cpf" id="cpf" required>
-
-    <label for="celular">Celular:</label>
-    <input type="text" name="celular" id="celular" required>
+    <div class="form-row">
+        <div class="form-group">
+            <label for="nome">Nome:</label>
+            <input type="text" name="nome" id="nome" required>
+        </div>
+        <div class="form-group">
+            <label for="cpf">CPF:</label>
+            <input type="text" name="cpf" id="cpf" required>
+        </div>
+        <div class="form-group">
+            <label for="celular">Celular:</label>
+            <input type="text" name="celular" id="celular" required>
+        </div>
+    </div>
 
     <h3>Endereço</h3>
-    <label for="cep">CEP:</label>
-    <input type="text" name="cep" id="cep" required>
+    <div class="form-row">
+        <div class="form-group">
+            <label for="cep">CEP:</label>
+            <input type="text" name="cep" id="cep" required>
+        </div>
+        <div class="form-group">
+            <label for="estado">Estado:</label>
+            <select name="estado" id="estado" required>
+                <option value="">Selecione</option>
+                <option value="AC">AC</option>
+                <option value="AL">AL</option>
+                <option value="AP">AP</option>
+                <option value="AM">AM</option>
+                <option value="BA">BA</option>
+                <option value="CE">CE</option>
+                <option value="DF">DF</option>
+                <option value="ES">ES</option>
+                <option value="GO">GO</option>
+                <option value="MA">MA</option>
+                <option value="MT">MT</option>
+                <option value="MS">MS</option>
+                <option value="MG">MG</option>
+                <option value="PA">PA</option>
+                <option value="PB">PB</option>
+                <option value="PR">PR</option>
+                <option value="PE">PE</option>
+                <option value="PI">PI</option>
+                <option value="RJ">RJ</option>
+                <option value="RN">RN</option>
+                <option value="RS">RS</option>
+                <option value="RO">RO</option>
+                <option value="RR">RR</option>
+                <option value="SC">SC</option>
+                <option value="SP">SP</option>
+                <option value="SE">SE</option>
+                <option value="TO">TO</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="municipio">Município:</label>
+            <input type="text" name="municipio" id="municipio" required>
+        </div>
+        <div class="form-group">
+            <label for="bairro">Bairro:</label>
+            <input type="text" name="bairro" id="bairro" required>
+        </div>
+        <div class="form-group">
+            <label for="rua">Rua:</label>
+            <input type="text" name="rua" id="rua" required>
+        </div>
+        <div class="form-group">
+            <label for="numero">Número:</label>
+            <input type="text" name="numero" id="numero" required>
+        </div>
+    </div>
 
-    <label for="estado">Estado:</label>
-    <select name="estado" id="estado" required>
-        <option value="">Selecione o estado</option>
-        <option value="AC">AC</option>
-        <option value="AL">AL</option>
-        <option value="AP">AP</option>
-        <option value="AM">AM</option>
-        <option value="BA">BA</option>
-        <option value="CE">CE</option>
-        <option value="DF">DF</option>
-        <option value="ES">ES</option>
-        <option value="GO">GO</option>
-        <option value="MA">MA</option>
-        <option value="MT">MT</option>
-        <option value="MS">MS</option>
-        <option value="MG">MG</option>
-        <option value="PA">PA</option>
-        <option value="PB">PB</option>
-        <option value="PR">PR</option>
-        <option value="PE">PE</option>
-        <option value="PI">PI</option>
-        <option value="RJ">RJ</option>
-        <option value="RN">RN</option>
-        <option value="RS">RS</option>
-        <option value="RO">RO</option>
-        <option value="RR">RR</option>
-        <option value="SC">SC</option>
-        <option value="SP">SP</option>
-        <option value="SE">SE</option>
-        <option value="TO">TO</option>
-    </select>
+    <h3>Produto Selecionado</h3>
+    <div class="form-row">
+        <input type="hidden" name="produto_id" value="<?= $_GET['produto_id'] ?? '' ?>">
+        <input type="hidden" name="valor" value="<?= $_GET['valor'] ?? '' ?>">
 
-    <label for="municipio">Município:</label>
-    <input type="text" name="municipio" id="municipio" required>
-
-    <label for="bairro">Bairro:</label>
-    <input type="text" name="bairro" id="bairro" required>
-
-    <label for="rua">Rua:</label>
-    <input type="text" name="rua" id="rua" required>
-
-    <label for="numero">Número:</label>
-    <input type="text" name="numero" id="numero" required>
-    
-     <h3>Produto Selecionado</h3>
-    <input type="hidden" name="produto_id" value="<?= $_GET['produto_id'] ?? '' ?>">
-    <input type="hidden" name="valor" value="<?= $_GET['valor'] ?? '' ?>">
-
-    <label>Produto:</label>
-    <input type="text" value="<?= $_GET['nome'] ?? '' ?>" readonly>
-
-    <label>Valor:</label>
-    <input type="text" value="<?= $_GET['valor'] ?? '' ?>" readonly>
+        <div class="form-group">
+            <label>Produto:</label>
+            <input type="text" value="<?= $_GET['nome'] ?? '' ?>" readonly>
+        </div>
+        <div class="form-group">
+            <label>Valor:</label>
+            <input type="text" value="<?= $_GET['valor'] ?? '' ?>" readonly>
+        </div>
+    </div>
 
     <button type="submit">Enviar</button>
 </form>
@@ -85,7 +105,7 @@
     }
 
     form {
-        max-width: 600px;
+        max-width: 900px;
         margin: 40px auto;
         padding: 30px 25px;
         backdrop-filter: blur(8px);
@@ -102,9 +122,19 @@
         font-weight: 600;
     }
 
+    .form-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+    }
+
+    .form-group {
+        flex: 1;
+        min-width: 200px;
+    }
+
     label {
         display: block;
-        margin-top: 18px;
         margin-bottom: 6px;
         color: #333;
         font-weight: 500;
@@ -138,6 +168,8 @@
         font-weight: 600;
         cursor: pointer;
         transition: background 0.2s;
+        display: block;
+        margin-left: auto;
     }
 
     button[type="submit"]:hover {

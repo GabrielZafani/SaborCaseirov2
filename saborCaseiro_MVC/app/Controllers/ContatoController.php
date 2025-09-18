@@ -74,7 +74,7 @@ class ContatoController extends Controller
             throw new Exception("Erro ao inserir o pedido.");
         }
 
-        // Se chegou até aqui → tudo certo
+        
         $pdo->commit();
 
         // Mostra alerta e volta para a página de contato

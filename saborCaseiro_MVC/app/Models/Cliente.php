@@ -12,7 +12,7 @@ class Cliente
         $this->db = $db;
     }
 
-    // Criar cliente
+ 
     public function create($nome, $cpf, $celular, $endereco_id)
     {
         $stmt = $this->db->prepare("

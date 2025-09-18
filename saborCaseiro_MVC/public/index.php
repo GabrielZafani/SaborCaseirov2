@@ -18,7 +18,7 @@ if ($uri === '' || $uri === '/') {
     $uri = '/home'; 
 }
 
-// Mapeamento de rotas fixas
+// Mapeamento de rotas 
 $pages = [
     '/home'           => [HomeController::class, 'index'],
     '/quem-somos'     => [QuemSomosController::class, 'index'],
@@ -27,7 +27,7 @@ $pages = [
     '/produtos'       => [ProdutoController::class, 'index'],
 ];
 
-// Rotas dinâmicas
+
 if (preg_match('#^/produto/(\d+)$#', $uri, $matches)) {
     $controller = new ProdutoController();
     $controller->detalhe((int)$matches[1]);

@@ -2,11 +2,11 @@
 
 namespace App\Controllers;
 
-use App\Core\Controller; // Se você tiver uma classe base Controller
+use App\Core\Controller; 
 use App\Models\Endereco;
 use App\Models\Cliente;
 use App\Models\Pedido;
-use Exception; // Importa a classe de exceção
+use Exception; 
 
 class ContatoController extends Controller
 {   
@@ -24,9 +24,9 @@ class ContatoController extends Controller
     
     public function index()
     {
-        $this->view('contato'); // O método existe na própria classe
+        $this->view('contato'); 
     }
-    // Este método irá processar a requisição POST do formulário
+   
     public function enviar()
 {
     $pdo = require __DIR__ . '/../Core/database.php';

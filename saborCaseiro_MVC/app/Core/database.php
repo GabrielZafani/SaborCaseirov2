@@ -1,6 +1,6 @@
 <?php
 
-// database.php
+
 
 $host = 'localhost'; 
 $dbname = 'projeto'; 

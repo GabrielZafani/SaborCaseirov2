@@ -68,13 +68,25 @@ JS;
             );
             $stmt2->execute([$nome, $cpf, $celular, $endereco_id]);
 
-            // Confirma transação
-            $this->db->commit();
+            
+          
+           
+$this->db->commit();
 
-            echo "<p>✅ Cliente e endereço cadastrados com sucesso!</p>";
-        } catch (\PDOException $e) {
-            $this->db->rollBack();
-            echo "<p>❌ Erro ao salvar os dados: " . $e->getMessage() . "</p>";
-        }
+echo "<script>
+    alert('✅ Cliente cadastrado com sucesso!');
+    window.location.href = '/saborCaseiro_MVC/public/contato';
+</script>";
+} catch (\PDOException $e) {
+    $this->db->rollBack();
+    echo "<script>
+        alert('❌ Erro ao salvar os dados: " . addslashes($e->getMessage()) . "');
+        window.location.href = '/saborCaseiro_MVC/public/contato';
+    </script>";
+}
+
+
+
     }
+
 }

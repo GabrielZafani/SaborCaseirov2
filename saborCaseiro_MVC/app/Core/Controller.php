@@ -3,7 +3,6 @@ namespace App\Core;
 
 class Controller {
     protected function render($view, $data = []) {
-        // Extrai variáveis do array para serem usadas na view
         extract($data);
 
         $viewFile = __DIR__ . "/../Views/{$view}.phtml";

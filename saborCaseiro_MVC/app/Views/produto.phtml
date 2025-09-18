@@ -8,10 +8,13 @@
             <p><?= htmlspecialchars($produto['descricao']) ?></p>
             <p class="valor">R$ <?= number_format($produto['valor'], 2, ',', '.') ?></p>
             <a href="/produtos" class="btn-voltar">Voltar ao catálogo</a>
-            <a href="/contato?produto_id=<?= $produto['id'] ?>&valor=<?= $produto['valor'] ?>" 
+       <a href="/contato?produto_id=<?= $produto['id'] ?>
+&nome=<?= urlencode($produto['nome']) ?>
+&valor=<?= $produto['valor'] ?>" 
    class="btn-comprar">
    Comprar
 </a>
+
         </div>
     </div>
 <?php else: ?>

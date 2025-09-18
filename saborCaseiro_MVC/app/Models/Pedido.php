@@ -3,76 +3,49 @@ namespace App\Models;
 
 use PDO;
 
-class Pedido
+class ProdutoPedido
 {
     private $db;
 
-    public function __construct($db)
+    public function __construct()
     {
-        $this->db = $db;
+        $this->db = new PDO("mysql:host=localhost;dbname=projeto;charset=utf8", "root", "");
+        $this->db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
     }
 
-    // Criar pedido
-    public function create($cliente_id, $descricao, $data, $status)
+    // Criar um item de pedido
+    public function criar($dados)
     {
         $stmt = $this->db->prepare("
-            INSERT INTO pedido (cliente_id, descricao, data, status)
-            VALUES (:cliente_id, :descricao, :data, :status)
+            INSERT INTO produto_pedido (pedido_id, produto_id, quantidade) 
+            VALUES (:pedido_id, :produto_id, :quantidade)
         ");
-        $stmt->bindParam(':cliente_id', $cliente_id);
-        $stmt->bindParam(':descricao', $descricao);
-        $stmt->bindParam(':data', $data);
-        $stmt->bindParam(':status', $status);
+        $stmt->execute([
+            ':pedido_id'  => $dados['pedido_id'],
+            ':produto_id' => $dados['produto_id'],
+            ':quantidade' => $dados['quantidade']
+        ]);
 
-        if ($stmt->execute()) {
-            return $this->db->lastInsertId(); // retorna o ID do pedido criado
-        }
-        return false;
+        return $this->db->lastInsertId();
     }
 
-    // Buscar pedido por ID
-    public function getById($id)
+    // Buscar todos os produtos de um pedido
+    public function getProdutosDoPedido($pedidoId)
     {
-        $sql = "SELECT p.*, c.nome as cliente_nome, c.cpf, c.celular
-                FROM pedido p
-                LEFT JOIN cliente c ON p.cliente_id = c.id
-                WHERE p.id = :id";
-        $stmt = $this->db->prepare($sql);
-        $stmt->bindParam(':id', $id);
-        $stmt->execute();
-        return $stmt->fetch(PDO::FETCH_ASSOC);
-    }
-
-    // Listar todos os pedidos
-    public function getAll()
-    {
-        $sql = "SELECT p.*, c.nome as cliente_nome
-                FROM pedido p
-                LEFT JOIN cliente c ON p.cliente_id = c.id";
-        $stmt = $this->db->query($sql);
+        $stmt = $this->db->prepare("
+            SELECT pp.*, p.nome, p.preco, p.imagem
+            FROM produto_pedido pp
+            JOIN produto p ON pp.produto_id = p.id
+            WHERE pp.pedido_id = :pedido_id
+        ");
+        $stmt->execute([':pedido_id' => $pedidoId]);
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    // Atualizar pedido
-    public function update($id, $descricao, $data, $status)
+    // Excluir todos os produtos de um pedido
+    public function excluirPorPedido($pedidoId)
     {
-        $stmt = $this->db->prepare("
-            UPDATE pedido 
-            SET descricao = :descricao, data = :data, status = :status
-            WHERE id = :id
-        ");
-        $stmt->bindParam(':id', $id);
-        $stmt->bindParam(':descricao', $descricao);
-        $stmt->bindParam(':data', $data);
-        $stmt->bindParam(':status', $status);
-        return $stmt->execute();
-    }
-
-    // Deletar pedido
-    public function delete($id)
-    {
-        $stmt = $this->db->prepare("DELETE FROM pedido WHERE id = :id");
-        $stmt->bindParam(':id', $id);
-        return $stmt->execute();
+        $stmt = $this->db->prepare("DELETE FROM produto_pedido WHERE pedido_id = :pedido_id");
+        $stmt->execute([':pedido_id' => $pedidoId]);
     }
 }
